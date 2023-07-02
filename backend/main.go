@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	// "github.com/gin-contrib/cors" //cors
+	"github.com/gin-contrib/cors" //cors
 
 	// for router
 	"github.com/gin-gonic/gin"
@@ -178,6 +178,12 @@ func main() {
 	mongoInit()
 
 	r := gin.Default()
+
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:5173"} // Replace with your frontend application's origin
+	config.AllowMethods = []string{"GET", "POST", "PUT"}
+	r.Use(cors.New(config))
+
 	r.POST("/ticket", createTicket)
 	r.GET("/tickets", getAllTicket)
 	r.PUT("ticket/:id", updateTicket)
