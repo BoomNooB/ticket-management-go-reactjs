@@ -180,7 +180,7 @@ func main() {
 	r := gin.Default()
 
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:5173"} // Replace with your frontend application's origin
+	config.AllowOrigins = []string{"http://ticket-management-go-reactjs.vercel.app"} // Replace with your frontend application's origin
 	config.AllowMethods = []string{"GET", "POST", "PUT"}
 	r.Use(cors.New(config))
 
