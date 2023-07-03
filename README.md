@@ -22,6 +22,7 @@ If you have any questions or need further assistance, you can contact me at [tha
 ### Back-end
 - All front-end files are located in the `backend` folder.
 - To install the Go dependencies, run `go mod tidy`.
+- Before running program make sure that you already create or put file `local.env` and name MONGO_URI for MongoDB URI to connect to DB
 - To run the back-end server, execute `go run main.go`.
 - And there is a test file named `main_test.go` and it can be run with `go test`
 
