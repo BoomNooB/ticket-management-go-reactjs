@@ -19,10 +19,8 @@ const CreateTicket = () => {
 			return;
 		}
 
-		// Start loading state
 		setIsLoading(true);
 
-		// Perform form submission logic
 		try {
 			await axios.post("/ticket", {
 				title,
@@ -31,7 +29,6 @@ const CreateTicket = () => {
 				status: "Ticket Created",
 			});
 
-			// Display success message using SweetAlert
 			MySwal.fire({
 				title: "Success",
 				text: "Ticket created successfully",
@@ -39,19 +36,16 @@ const CreateTicket = () => {
 				showCancelButton: false,
 				confirmButtonText: "OK",
 			}).then((result) => {
-				// Reload the page after closing the dialog
 				if (result.isConfirmed) {
 					window.location.reload();
 				}
 			});
 
-			// Reset form fields
 			setTitle("");
 			setDescription("");
 			setContactInfo("");
 		} catch (error) {
 			console.error("Failed to create ticket:", error);
-			// Display error message using SweetAlert
 			MySwal.fire({
 				title: "Error",
 				text: "Failed to create ticket",
@@ -60,7 +54,6 @@ const CreateTicket = () => {
 				confirmButtonText: "OK",
 			});
 		} finally {
-			// Stop loading state
 			setIsLoading(false);
 		}
 	};
