@@ -129,72 +129,69 @@ const Home = () => {
 	};
 
 	return (
-		<div>
-			<h1 className="text-center">Ticket Management System</h1>
+		<div className="container">
+			<h1 className="text-center mt-4 mb-3">Ticket Management System</h1>
 
-			<button
-				className="btn btn-primary"
-				onClick={() => setCreatingTicket(true)}
-			>
-				New Ticket
-			</button>
+			<div className="text-end mb-3">
+				<button
+					className="btn btn-primary"
+					onClick={() => setCreatingTicket(true)}
+				>
+					New Ticket
+				</button>
+			</div>
 
-			<div className="filter-container">
-				<label>Filter by Status:</label>
-				<div>
-					<label>
-						<input
-							type="checkbox"
-							value="Ticket Created"
-							checked={filteredStatus.includes("Ticket Created")}
-							onChange={handleFilterChange}
-						/>
-						Ticket Created
-					</label>
+			<div className="filter-container mb-3">
+				<label className="me-2">Filter by Status:</label>
+				<div className="form-check form-check-inline">
+					<input
+						type="checkbox"
+						className="form-check-input"
+						value="Ticket Created"
+						checked={filteredStatus.includes("Ticket Created")}
+						onChange={handleFilterChange}
+					/>
+					<label className="form-check-label">Ticket Created</label>
 				</div>
-				<div>
-					<label>
-						<input
-							type="checkbox"
-							value="Pending"
-							checked={filteredStatus.includes("Pending")}
-							onChange={handleFilterChange}
-						/>
-						Pending
-					</label>
+				<div className="form-check form-check-inline">
+					<input
+						type="checkbox"
+						className="form-check-input"
+						value="Pending"
+						checked={filteredStatus.includes("Pending")}
+						onChange={handleFilterChange}
+					/>
+					<label className="form-check-label">Pending</label>
 				</div>
-				<div>
-					<label>
-						<input
-							type="checkbox"
-							value="Accepted"
-							checked={filteredStatus.includes("Accepted")}
-							onChange={handleFilterChange}
-						/>
-						Accepted
-					</label>
+				<div className="form-check form-check-inline">
+					<input
+						type="checkbox"
+						className="form-check-input"
+						value="Accepted"
+						checked={filteredStatus.includes("Accepted")}
+						onChange={handleFilterChange}
+					/>
+					<label className="form-check-label">Accepted</label>
 				</div>
-				<div>
-					<label>
-						<input
-							type="checkbox"
-							value="Resolved"
-							checked={filteredStatus.includes("Resolved")}
-							onChange={handleFilterChange}
-						/>
-						Resolved
-					</label>
+				<div className="form-check form-check-inline">
+					<input
+						type="checkbox"
+						className="form-check-input"
+						value="Resolved"
+						checked={filteredStatus.includes("Resolved")}
+						onChange={handleFilterChange}
+					/>
+					<label className="form-check-label">Resolved</label>
 				</div>
-				<div>
-					<label>
-						<input
-							type="checkbox"
-							value="Rejected"
-							checked={filteredStatus.includes("Rejected")}
-							onChange={handleFilterChange}
-						/>
-						Rejected
-					</label>
+				<div className="form-check form-check-inline">
+					<input
+						type="checkbox"
+						className="form-check-input"
+						value="Rejected"
+						checked={filteredStatus.includes("Rejected")}
+						onChange={handleFilterChange}
+					/>
+					<label className="form-check-label">Rejected</label>
 				</div>
 			</div>
 
@@ -225,9 +222,24 @@ const Home = () => {
 				<tbody>
 					{filteredAndSortedTickets.map((ticket) => (
 						<tr key={ticket.id}>
-							<td>{ticket.title}</td>
-							<td>{ticket.description}</td>
-							<td>{ticket.contactInfo}</td>
+							<td>
+								{ticket.title &&
+									ticket.title
+										.match(/.{1,30}/g)
+										.map((line, index) => <div key={index}>{line}</div>)}
+							</td>
+							<td>
+								{ticket.description &&
+									ticket.description
+										.match(/.{1,30}/g)
+										.map((line, index) => <div key={index}>{line}</div>)}
+							</td>
+							<td>
+								{ticket.contactInfo &&
+									ticket.contactInfo
+										.match(/.{1,30}/g)
+										.map((line, index) => <div key={index}>{line}</div>)}
+							</td>
 							<td>{ticket.status}</td>
 							<td>{ticket.createdAt}</td>
 							<td>{ticket.updatedAt}</td>
