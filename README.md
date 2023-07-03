@@ -48,7 +48,7 @@ type TicketModel struct {
 - This endpoint creates a new ticket.
 - The default of ticket status will be : Ticket Created
 - Path: `https://long-erin-calf-gear.cyclic.app/ticket`
-- Request Body:
+- Request Body Example:
   ```json
   {
     "title": "The Title Of Ticket",
@@ -60,7 +60,7 @@ type TicketModel struct {
 ### PUT /ticket/:id
 - This endpoint updates an existing ticket specified by its ID.
 - Path: `https://long-erin-calf-gear.cyclic.app/ticket/:id`
-- Request Body:
+- Request Body Example:
   ```json
   {
     "title": "Updated Ticket Title",
