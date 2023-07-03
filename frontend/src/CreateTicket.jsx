@@ -9,9 +9,18 @@ const CreateTicket = () => {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [contactInfo, setContactInfo] = useState("");
+	const [isLoading, setIsLoading] = useState(false); // New loading state
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		// Prevent multiple submissions
+		if (isLoading) {
+			return;
+		}
+
+		// Start loading state
+		setIsLoading(true);
 
 		// Perform form submission logic
 		try {
@@ -50,6 +59,9 @@ const CreateTicket = () => {
 				showCancelButton: false,
 				confirmButtonText: "OK",
 			});
+		} finally {
+			// Stop loading state
+			setIsLoading(false);
 		}
 	};
 
@@ -92,8 +104,8 @@ const CreateTicket = () => {
 						onChange={(e) => setContactInfo(e.target.value)}
 					/>
 				</div>
-				<button type="submit" className="btn btn-primary">
-					Submit
+				<button type="submit" className="btn btn-primary" disabled={isLoading}>
+					{isLoading ? "Submitting..." : "Submit"}
 				</button>
 			</form>
 		</div>

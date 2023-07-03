@@ -12,9 +12,18 @@ const EditTicket = ({ ticket, onTicketUpdated }) => {
 	const [description, setDescription] = useState(ticket.description);
 	const [contactInfo, setContactInfo] = useState(ticket.contactInfo);
 	const [status, setStatus] = useState(ticket.status);
+	const [isLoading, setIsLoading] = useState(false); // New loading state
 
 	const handleFormSubmit = async (e) => {
 		e.preventDefault();
+
+		// Prevent multiple submissions
+		if (isLoading) {
+			return;
+		}
+
+		// Start loading state
+		setIsLoading(true);
 
 		try {
 			const updatedTicket = {
@@ -39,6 +48,9 @@ const EditTicket = ({ ticket, onTicketUpdated }) => {
 				showCancelButton: false,
 				confirmButtonText: "OK",
 			});
+		} finally {
+			// Stop loading state
+			setIsLoading(false);
 		}
 	};
 
@@ -97,8 +109,8 @@ const EditTicket = ({ ticket, onTicketUpdated }) => {
 						<option value="Rejected">Rejected</option>
 					</select>
 				</div>
-				<button type="submit" className="btn btn-primary">
-					Update
+				<button type="submit" className="btn btn-primary" disabled={isLoading}>
+					{isLoading ? "Updating..." : "Update"}
 				</button>
 			</form>
 		</div>
