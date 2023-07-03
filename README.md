@@ -72,5 +72,5 @@ type TicketModel struct {
 
 Please note that the front-end side is deployed on **Vercel**, and the back-end side is deployed on **Cyclic.sh**, which is **_serverless_**. This setup might cause a delay when using the application after a period of inactivity.
 ---
-&copy; [BoomNooB](thatpong.com) 2023 - Built from scratch
+&copy; [BoomNooB](https://thatpong.com) 2023 - Built from scratch
 
