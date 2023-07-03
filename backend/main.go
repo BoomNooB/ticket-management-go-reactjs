@@ -180,7 +180,7 @@ func main() {
 	r := gin.Default()
 
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"https://ticket-management-go-reactjs.vercel.app/"}
+	config.AllowAllOrigins = true
 	config.AllowMethods = []string{"GET", "POST", "PUT"}
 	r.Use(cors.New(config))
 
