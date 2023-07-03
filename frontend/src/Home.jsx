@@ -1,7 +1,6 @@
-// Home.jsx
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import CreateTicket from "./CreateTicket";
@@ -13,6 +12,8 @@ const Home = () => {
 	const [tickets, setTickets] = useState([]);
 	const [creatingTicket, setCreatingTicket] = useState(false);
 	const [editingTicket, setEditingTicket] = useState(false);
+	const [sortConfig, setSortConfig] = useState(null);
+	const [filteredStatus, setFilteredStatus] = useState([]);
 
 	useEffect(() => {
 		fetchTickets();
@@ -71,6 +72,62 @@ const Home = () => {
 		});
 	};
 
+	const requestSort = (key) => {
+		let direction = "asc";
+		if (
+			sortConfig &&
+			sortConfig.key === key &&
+			sortConfig.direction === "asc"
+		) {
+			direction = "desc";
+		}
+		setSortConfig({ key, direction });
+	};
+
+	const sortTickets = (array, key, direction) => {
+		const compareFn = (a, b) => {
+			if (a[key] < b[key]) {
+				return -1;
+			}
+			if (a[key] > b[key]) {
+				return 1;
+			}
+			return 0;
+		};
+
+		const sortedArray = array.sort(compareFn);
+		return direction === "desc" ? sortedArray.reverse() : sortedArray;
+	};
+
+	const sortedTickets = sortConfig
+		? sortTickets(tickets, sortConfig.key, sortConfig.direction)
+		: tickets;
+
+	const handleFilterChange = (event) => {
+		const value = event.target.value;
+		if (filteredStatus.includes(value)) {
+			setFilteredStatus(filteredStatus.filter((status) => status !== value));
+		} else {
+			setFilteredStatus([...filteredStatus, value]);
+		}
+	};
+
+	const filterTickets = (array, status) => {
+		if (status.length === 0) {
+			return array;
+		}
+		return array.filter((ticket) => status.includes(ticket.status));
+	};
+
+	const filteredAndSortedTickets = filterTickets(sortedTickets, filteredStatus);
+
+	const getSortIcon = (key) => {
+		if (sortConfig && sortConfig.key === key) {
+			return sortConfig.direction === "asc" ? <FaSortUp /> : <FaSortDown />;
+		}
+		return <FaSort />;
+	};
+
 	return (
 		<div>
 			<h1 className="text-center">Ticket Management System</h1>
@@ -82,20 +139,91 @@ const Home = () => {
 				New Ticket
 			</button>
 
+			<div className="filter-container">
+				<label>Filter by Status:</label>
+				<div>
+					<label>
+						<input
+							type="checkbox"
+							value="Ticket Created"
+							checked={filteredStatus.includes("Ticket Created")}
+							onChange={handleFilterChange}
+						/>
+						Ticket Created
+					</label>
+				</div>
+				<div>
+					<label>
+						<input
+							type="checkbox"
+							value="Pending"
+							checked={filteredStatus.includes("Pending")}
+							onChange={handleFilterChange}
+						/>
+						Pending
+					</label>
+				</div>
+				<div>
+					<label>
+						<input
+							type="checkbox"
+							value="Accepted"
+							checked={filteredStatus.includes("Accepted")}
+							onChange={handleFilterChange}
+						/>
+						Accepted
+					</label>
+				</div>
+				<div>
+					<label>
+						<input
+							type="checkbox"
+							value="Resolved"
+							checked={filteredStatus.includes("Resolved")}
+							onChange={handleFilterChange}
+						/>
+						Resolved
+					</label>
+				</div>
+				<div>
+					<label>
+						<input
+							type="checkbox"
+							value="Rejected"
+							checked={filteredStatus.includes("Rejected")}
+							onChange={handleFilterChange}
+						/>
+						Rejected
+					</label>
+				</div>
+			</div>
+
 			<table className="table table-striped">
 				<thead>
 					<tr>
-						<th>Title</th>
-						<th>Description</th>
-						<th>Contact</th>
-						<th>Status</th>
-						<th>Created</th>
-						<th>Updated</th>
+						<th onClick={() => requestSort("title")}>
+							Title {getSortIcon("title")}
+						</th>
+						<th onClick={() => requestSort("description")}>
+							Description {getSortIcon("description")}
+						</th>
+						<th onClick={() => requestSort("contactInfo")}>
+							Contact {getSortIcon("contactInfo")}
+						</th>
+						<th onClick={() => requestSort("status")}>
+							Status {getSortIcon("status")}
+						</th>
+						<th onClick={() => requestSort("createdAt")}>
+							Created {getSortIcon("createdAt")}
+						</th>
+						<th onClick={() => requestSort("updatedAt")}>
+							Updated {getSortIcon("updatedAt")}
+						</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-					{tickets.map((ticket) => (
+					{filteredAndSortedTickets.map((ticket) => (
 						<tr key={ticket.id}>
 							<td>{ticket.title}</td>
 							<td>{ticket.description}</td>
